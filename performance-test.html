@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Performance - TDI CHAUVEAU THIERRY</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            margin: 15px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-item h3 {
+            margin: 0 0 10px 0;
+            color: #006994;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .performance-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .performance-bar {
+            width: 100%;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .performance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 0.5s ease;
+        }
+        .performance-fill.medium {
+            background: linear-gradient(90deg, #ff9800, #ffc107);
+        }
+        .performance-fill.low {
+            background: linear-gradient(90deg, #f44336, #ff5722);
+        }
+        .test-button {
+            background: #006994;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #004d6b;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>⚡ Test de Performance Mobile</h1>
+        <p>Ce fichier permet de tester les optimisations de performance de votre site TDI sur mobile.</p>
+        
+        <div class="performance-info">
+            <h3>📊 Informations de Performance</h3>
+            <div id="performanceInfo">Chargement...</div>
+            <div class="performance-bar">
+                <div id="performanceBar" class="performance-fill" style="width: 0%"></div>
+            </div>
+            <div id="performanceScore">Score: --</div>
+        </div>
+        
+        <div class="test-item">
+            <h3>1. Détection d'Appareil</h3>
+            <p>Vérification de la détection mobile et des optimisations</p>
+            <div id="deviceDetection" class="status">En attente...</div>
+        </div>
+        
+        <div class="test-item">
+            <h3>2. Animations JavaScript</h3>
+            <p>Test des animations optimisées pour mobile</p>
+            <div id="jsAnimations" class="status">En attente...</div>
+            <button class="test-button" onclick="testJSAnimations()">Tester les Animations</button>
+        </div>
+        
+        <div class="test-item">
+            <h3>3. CSS Mobile</h3>
+            <p>Vérification des optimisations CSS mobile</p>
+            <div id="cssMobile" class="status">En attente...</div>
+        </div>
+        
+        <div class="test-item">
+            <h3>4. Performance Générale</h3>
+            <p>Test de la fluidité générale</p>
+            <div id="generalPerformance" class="status">En attente...</div>
+            <button class="test-button" onclick="testGeneralPerformance()">Tester la Performance</button>
+        </div>
+        
+        <div class="test-item">
+            <h3>5. Optimisations Spécifiques</h3>
+            <p>Vérification des optimisations avancées</p>
+            <div id="specificOptimizations" class="status">En attente...</div>
+        </div>
+        
+        <div class="results" id="testResults" style="display: none;">
+            <h3>📋 Résultats des Tests</h3>
+            <div id="resultsContent"></div>
+        </div>
+        
+        <div class="test-item">
+            <h3>🔗 Retour au site principal</h3>
+            <a href="index.html" style="color: #006994; text-decoration: none; font-weight: bold;">← Retour à TDI CHAUVEAU THIERRY</a>
+        </div>
+    </div>
+
+    <script>
+        let performanceScore = 0;
+        let testResults = [];
+        
+        // Affichage des informations de performance
+        function displayPerformanceInfo() {
+            const performanceInfo = document.getElementById('performanceInfo');
+            const performanceBar = document.getElementById('performanceBar');
+            const performanceScoreElement = document.getElementById('performanceScore');
+            
+            const info = {
+                'Largeur d\'écran': window.innerWidth + 'px',
+                'Hauteur d\'écran': window.innerHeight + 'px',
+                'Ratio de pixels': window.devicePixelRatio,
+                'User Agent': navigator.userAgent.substring(0, 80) + '...',
+                'Type d\'appareil': window.innerWidth <= 768 ? 'Mobile' : 'Desktop',
+                'Mémoire disponible': navigator.deviceMemory ? navigator.deviceMemory + 'GB' : 'Non détectée',
+                'Connexion': navigator.connection ? navigator.connection.effectiveType : 'Non détectée'
+            };
+            
+            let html = '';
+            for (const [key, value] of Object.entries(info)) {
+                html += `<strong>${key}:</strong> ${value}<br>`;
+            }
+            performanceInfo.innerHTML = html;
+            
+            // Calculer le score de performance
+            calculatePerformanceScore();
+        }
+        
+        // Calculer le score de performance
+        function calculatePerformanceScore() {
+            let score = 100;
+            
+            // Réduire le score pour les appareils lents
+            if (window.innerWidth <= 768) score -= 10;
+            if (navigator.deviceMemory && navigator.deviceMemory < 4) score -= 20;
+            if (navigator.connection && navigator.connection.effectiveType === 'slow-2g') score -= 30;
+            
+            performanceScore = Math.max(0, score);
+            
+            // Mettre à jour la barre de performance
+            const performanceBar = document.getElementById('performanceBar');
+            const performanceScoreElement = document.getElementById('performanceScore');
+            
+            performanceBar.style.width = performanceScore + '%';
+            performanceScoreElement.textContent = `Score: ${performanceScore}/100`;
+            
+            // Changer la couleur selon le score
+            performanceBar.className = 'performance-fill';
+            if (performanceScore < 50) {
+                performanceBar.classList.add('low');
+            } else if (performanceScore < 80) {
+                performanceBar.classList.add('medium');
+            }
+        }
+        
+        // Test des animations JavaScript
+        function testJSAnimations() {
+            const jsAnimations = document.getElementById('jsAnimations');
+            
+            try {
+                // Vérifier si les animations sont optimisées
+                if (window.animationManager) {
+                    jsAnimations.className = 'status success';
+                    jsAnimations.textContent = '✅ Animations optimisées pour mobile';
+                    addTestResult('Animations JS', 'Succès', 'Les animations sont optimisées pour mobile');
+                } else {
+                    jsAnimations.className = 'status warning';
+                    jsAnimations.textContent = '⚠️ Gestionnaire d\'animations non détecté';
+                    addTestResult('Animations JS', 'Avertissement', 'Gestionnaire d\'animations non détecté');
+                }
+            } catch (error) {
+                jsAnimations.className = 'status error';
+                jsAnimations.textContent = '❌ Erreur lors du test';
+                addTestResult('Animations JS', 'Erreur', error.message);
+            }
+        }
+        
+        // Test de performance générale
+        function testGeneralPerformance() {
+            const generalPerformance = document.getElementById('generalPerformance');
+            
+            try {
+                // Test de performance simple
+                const startTime = performance.now();
+                
+                // Simuler une tâche
+                let result = 0;
+                for (let i = 0; i < 1000000; i++) {
+                    result += Math.random();
+                }
+                
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                
+                if (duration < 100) {
+                    generalPerformance.className = 'status success';
+                    generalPerformance.textContent = '✅ Performance excellente';
+                    addTestResult('Performance Générale', 'Succès', `Temps d'exécution: ${duration.toFixed(2)}ms`);
+                } else if (duration < 500) {
+                    generalPerformance.className = 'status warning';
+                    generalPerformance.textContent = '⚠️ Performance correcte';
+                    addTestResult('Performance Générale', 'Avertissement', `Temps d'exécution: ${duration.toFixed(2)}ms`);
+                } else {
+                    generalPerformance.className = 'status error';
+                    generalPerformance.textContent = '❌ Performance lente';
+                    addTestResult('Performance Générale', 'Erreur', `Temps d'exécution: ${duration.toFixed(2)}ms`);
+                }
+            } catch (error) {
+                generalPerformance.className = 'status error';
+                generalPerformance.textContent = '❌ Erreur lors du test';
+                addTestResult('Performance Générale', 'Erreur', error.message);
+            }
+        }
+        
+        // Ajouter un résultat de test
+        function addTestResult(testName, status, details) {
+            testResults.push({ testName, status, details });
+            updateResultsDisplay();
+        }
+        
+        // Mettre à jour l'affichage des résultats
+        function updateResultsDisplay() {
+            const testResultsDiv = document.getElementById('testResults');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            if (testResults.length > 0) {
+                testResultsDiv.style.display = 'block';
+                
+                let html = '';
+                testResults.forEach(result => {
+                    const statusIcon = result.status === 'Succès' ? '✅' : result.status === 'Avertissement' ? '⚠️' : '❌';
+                    html += `<div style="margin: 10px 0; padding: 10px; background: white; border-radius: 5px;">
+                        <strong>${statusIcon} ${result.testName}:</strong> ${result.status}<br>
+                        <small>${result.details}</small>
+                    </div>`;
+                });
+                
+                resultsContent.innerHTML = html;
+            }
+        }
+        
+        // Tests automatiques au chargement
+        function runAutomaticTests() {
+            // Test de détection d'appareil
+            const deviceDetection = document.getElementById('deviceDetection');
+            if (window.innerWidth <= 768) {
+                deviceDetection.className = 'status success';
+                deviceDetection.textContent = '✅ Appareil mobile détecté';
+                addTestResult('Détection d\'Appareil', 'Succès', 'Appareil mobile détecté et optimisé');
+            } else {
+                deviceDetection.className = 'status warning';
+                deviceDetection.textContent = '⚠️ Appareil desktop détecté';
+                addTestResult('Détection d\'Appareil', 'Avertissement', 'Appareil desktop détecté');
+            }
+            
+            // Test CSS mobile
+            const cssMobile = document.getElementById('cssMobile');
+            if (document.querySelector('link[href*="mobile-optimizations.css"]')) {
+                cssMobile.className = 'status success';
+                cssMobile.textContent = '✅ CSS mobile optimisé chargé';
+                addTestResult('CSS Mobile', 'Succès', 'Fichiers CSS mobile chargés');
+            } else {
+                cssMobile.className = 'status error';
+                cssMobile.textContent = '❌ CSS mobile non chargé';
+                addTestResult('CSS Mobile', 'Erreur', 'Fichiers CSS mobile non trouvés');
+            }
+            
+            // Test des optimisations spécifiques
+            const specificOptimizations = document.getElementById('specificOptimizations');
+            if (window.TDIUtils && window.TDIUtils.isMobile) {
+                specificOptimizations.className = 'status success';
+                specificOptimizations.textContent = '✅ Utilitaires mobile disponibles';
+                addTestResult('Optimisations Spécifiques', 'Succès', 'Utilitaires mobile disponibles');
+            } else {
+                specificOptimizations.className = 'status warning';
+                specificOptimizations.textContent = '⚠️ Utilitaires mobile limités';
+                addTestResult('Optimisations Spécifiques', 'Avertissement', 'Utilitaires mobile limités');
+            }
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            displayPerformanceInfo();
+            runAutomaticTests();
+        });
+        
+        // Mise à jour lors du redimensionnement
+        window.addEventListener('resize', function() {
+            displayPerformanceInfo();
+        });
+    </script>
+</body>
+</html>

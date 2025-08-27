@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TDI CHAUVEAU THIERRY - Dépannage Informatique Professionnel a Tigy Loiret </title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/mobile-optimizations.css">
+    <link rel="stylesheet" href="css/performance-mobile.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/ajax/libs/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
         
@@ -36,6 +38,9 @@
                     </li>
                     <li class="nav-item">
                         <a href="#contact" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item" id="testMobileNav" style="display: none;">
+                        <a href="#" class="nav-link" onclick="showMobileTest(); return false;">🧪 Test Mobile</a>
                     </li>
                 </ul>
                 <div class="hamburger">
@@ -631,41 +636,170 @@
     <script src="js/payment.js"></script>
     <script src="js/hardware-shop.js"></script>
     <script src="script.js"></script>
+    
+    <!-- Liens de test mobile -->
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: none;" id="mobileTestLinks">
+        <div style="background: rgba(0, 105, 148, 0.9); color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+            <h4 style="margin: 0 0 10px 0; font-size: 14px;">🧪 Tests Mobile</h4>
+            <button onclick="showMobileTest()" style="color: white; text-decoration: none; display: block; margin: 5px 0; padding: 5px; border-radius: 3px; background: rgba(255,255,255,0.2); border: none; width: 100%; text-align: left; cursor: pointer;">Test Mobile Intégré</button>
+            <button onclick="document.getElementById('mobileTestLinks').style.display='none'" style="background: none; border: none; color: white; cursor: pointer; float: right; font-size: 18px;">×</button>
+        </div>
+    </div>
+    
+    <!-- Modal de test mobile intégré -->
+    <div id="mobileTestModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;">
+        <div style="background: white; margin: 20px auto; max-width: 600px; border-radius: 15px; padding: 20px; position: relative;">
+            <button onclick="hideMobileTest()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+            
+            <h1 style="color: #006994; text-align: center; margin-bottom: 20px;">🧪 Test Mobile TDI</h1>
+            
+            <div id="deviceInfo" style="background: #e9ecef; padding: 15px; border-radius: 10px; margin: 20px 0;">
+                <h3>📱 Votre appareil</h3>
+                <div id="deviceDetails">Chargement...</div>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px 0;">
+                <h3>✅ Optimisations Mobile Actives</h3>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>CSS responsive configuré</li>
+                    <li>Navigation mobile optimisée</li>
+                    <li>Animations adaptées à la performance</li>
+                    <li>Formulaires optimisés (16px minimum)</li>
+                    <li>Boutons tactiles (44px minimum)</li>
+                    <li>Performance mobile optimisée</li>
+                </ul>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px 0;">
+                <h3>🔧 Test de Performance</h3>
+                <button onclick="testPerformance()" style="background: #006994; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 10px 0;">Tester la Performance</button>
+                <div id="performanceResult"></div>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px 0;">
+                <h3>📱 Test Responsive</h3>
+                <p>Redimensionnez cette fenêtre pour tester le responsive design</p>
+                <div id="responsiveTest" style="background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                    Largeur actuelle: <span id="currentWidth"></span>px
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="hideMobileTest()" style="background: #006994; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-size: 16px;">Fermer le Test</button>
+            </div>
+        </div>
+    </div>
     <script>
-        // Forcer l'affichage de tous les liens de navigation
+        // Script d'optimisation mobile
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Script de navigation chargé !');
+            console.log('Script d\'optimisation mobile chargé !');
             
-            const navMenu = document.querySelector('.nav-menu');
-            const navItems = document.querySelectorAll('.nav-item');
-            const navLinks = document.querySelectorAll('.nav-link');
+            // Détection de l'appareil mobile
+            const isMobile = window.innerWidth <= 768;
             
-            console.log('Menu trouvé:', navMenu);
-            console.log('Items trouvés:', navItems.length);
-            console.log('Liens trouvés:', navLinks.length);
-            
-            if (navMenu) {
-                navMenu.style.display = 'flex';
-                navMenu.style.visibility = 'visible';
-                navMenu.style.opacity = '1';
-                console.log('Menu forcé à s\'afficher !');
+            if (isMobile) {
+                console.log('Appareil mobile détecté, optimisation activée');
+                
+                // Optimisation des images pour mobile
+                const images = document.querySelectorAll('img');
+                images.forEach(img => {
+                    img.style.maxWidth = '100%';
+                    img.style.height = 'auto';
+                });
+                
+                // Optimisation des formulaires
+                const inputs = document.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    input.style.fontSize = '16px'; // Évite le zoom sur iOS
+                });
+                
+                // Afficher les liens de test mobile
+                const mobileTestLinks = document.getElementById('mobileTestLinks');
+                if (mobileTestLinks) {
+                    mobileTestLinks.style.display = 'block';
+                }
+                
+                // Afficher le lien de test dans la navigation
+                const testMobileNav = document.getElementById('testMobileNav');
+                if (testMobileNav) {
+                    testMobileNav.style.display = 'block';
+                }
             }
             
-            navItems.forEach((item, index) => {
-                item.style.display = 'block';
-                item.style.visibility = 'visible';
-                item.style.opacity = '1';
-                console.log(`Item ${index} forcé à s'afficher:`, item.textContent);
-            });
+            // Fonctions pour le test mobile intégré
+            window.showMobileTest = function() {
+                const modal = document.getElementById('mobileTestModal');
+                if (modal) {
+                    modal.style.display = 'block';
+                    updateDeviceInfo();
+                    updateResponsiveTest();
+                }
+            };
             
-            navLinks.forEach((link, index) => {
-                link.style.display = 'block';
-                link.style.visibility = 'visible';
-                link.style.opacity = '1';
-                console.log(`Lien ${index} forcé à s'afficher:`, link.textContent);
-            });
+            window.hideMobileTest = function() {
+                const modal = document.getElementById('mobileTestModal');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            };
             
-            console.log('Navigation complètement forcée !');
+            function updateDeviceInfo() {
+                const deviceDetails = document.getElementById('deviceDetails');
+                if (deviceDetails) {
+                    const info = {
+                        'Écran': window.innerWidth + ' × ' + window.innerHeight + 'px',
+                        'Type': window.innerWidth <= 768 ? '📱 Mobile' : '💻 Desktop',
+                        'Ratio': window.devicePixelRatio + 'x',
+                        'Orientation': window.innerWidth > window.innerHeight ? 'Paysage' : 'Portrait',
+                        'User Agent': navigator.userAgent.substring(0, 50) + '...'
+                    };
+                    
+                    let html = '';
+                    for (const [key, value] of Object.entries(info)) {
+                        html += `<strong>${key}:</strong> ${value}<br>`;
+                    }
+                    deviceDetails.innerHTML = html;
+                }
+            }
+            
+            function updateResponsiveTest() {
+                const currentWidth = document.getElementById('currentWidth');
+                if (currentWidth) {
+                    currentWidth.textContent = window.innerWidth;
+                }
+            }
+            
+            window.testPerformance = function() {
+                const result = document.getElementById('performanceResult');
+                if (result) {
+                    const start = performance.now();
+                    
+                    // Test simple
+                    let sum = 0;
+                    for (let i = 0; i < 100000; i++) {
+                        sum += Math.random();
+                    }
+                    
+                    const duration = performance.now() - start;
+                    const score = duration < 50 ? 'Excellent' : duration < 100 ? 'Bon' : 'Correct';
+                    
+                    result.innerHTML = `
+                        <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                            <strong>Performance: ${score}</strong><br>
+                            Temps: ${duration.toFixed(2)}ms<br>
+                            Score: ${Math.max(0, 100 - Math.floor(duration))}/100
+                    </div>
+                    `;
+                }
+            };
+            
+            // Mise à jour lors du redimensionnement
+            window.addEventListener('resize', function() {
+                if (document.getElementById('mobileTestModal').style.display === 'block') {
+                    updateDeviceInfo();
+                    updateResponsiveTest();
+                }
+            });
         });
     </script>
 </body>

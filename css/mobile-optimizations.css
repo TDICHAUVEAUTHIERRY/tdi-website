@@ -1,0 +1,136 @@
+/* ===== OPTIMISATIONS MOBILE GLOBALES ===== */
+
+/* Amélioration de la lisibilité sur mobile */
+@media (max-width: 768px) {
+    /* Optimisation de la typographie */
+    body {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    
+    /* Optimisation des conteneurs */
+    .container {
+        padding: 0 15px;
+        max-width: 100%;
+    }
+    
+    /* Optimisation des sections */
+    section {
+        padding: 40px 0;
+    }
+    
+    /* Optimisation des grilles */
+    .grid, [class*="grid"] {
+        gap: 1.5rem;
+    }
+    
+    /* Optimisation des cartes */
+    .card, [class*="card"] {
+        margin-bottom: 1rem;
+    }
+    
+    /* Optimisation des boutons */
+    .btn {
+        min-height: 44px; /* Taille minimale recommandée pour mobile */
+        touch-action: manipulation;
+    }
+    
+    /* Optimisation des formulaires */
+    input, textarea, select {
+        font-size: 16px !important; /* Évite le zoom sur iOS */
+        min-height: 44px;
+        padding: 12px 16px;
+    }
+    
+    /* Optimisation des liens */
+    a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Optimisation des images */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Optimisation des icônes */
+    .fas, .fab, .far {
+        font-size: 1.2em;
+    }
+    
+    /* Optimisation des espacements */
+    .section-title {
+        margin-bottom: 2rem;
+    }
+    
+    .hero {
+        min-height: auto;
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Optimisations pour très petits écrans */
+    .container {
+        padding: 0 10px;
+    }
+    
+    section {
+        padding: 30px 0;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    
+    /* Optimisation des grilles pour très petits écrans */
+    .grid, [class*="grid"] {
+        gap: 1rem;
+    }
+    
+    /* Optimisation des cartes pour très petits écrans */
+    .card, [class*="card"] {
+        padding: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Optimisations spécifiques pour l'orientation paysage sur mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+        padding: 40px 0;
+    }
+    
+    .nav-menu {
+        padding: 3rem 0 1rem 0;
+    }
+}
+
+/* Optimisations pour les appareils à haute densité de pixels */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .btn, input, textarea, select {
+        border-width: 0.5px;
+    }
+}
+
+/* Optimisations pour les appareils avec notch */
+@supports (padding: max(0px)) {
+    .header, .navbar {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+    }
+    
+    .nav-menu {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+}

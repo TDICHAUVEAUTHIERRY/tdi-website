@@ -981,98 +981,8 @@ textarea:focus {
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-    .hamburger {
-        display: flex;
-    }
-
-    .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 70px;
-        flex-direction: column;
-        background-color: var(--primary-dark);
-        width: 100%;
-        text-align: center;
-        transition: 0.3s;
-        box-shadow: var(--shadow);
-        padding: 2rem 0;
-    }
-
-    .nav-menu.active {
-        left: 0;
-    }
-
-    .hero-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 2rem;
-    }
-
-    .title-main {
-        font-size: 2.5rem;
-    }
-
-    .title-sub {
-        font-size: 2rem;
-    }
-
-    .title-clients {
-        font-size: 1.25rem;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .hero-stats {
-        justify-content: center;
-    }
-
-    .contact-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .pricing-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .pricing-card.featured {
-        transform: none;
-    }
-
-    .pricing-card.featured:hover {
-        transform: translateY(-5px);
-    }
-
-    .advantages-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-
-    .floating-elements {
-        display: none;
-    }
-
-    .hero-image i {
-        font-size: 15rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .title-main {
-        font-size: 2rem;
-    }
-
-    .title-sub {
-        font-size: 1.5rem;
-    }
-
-    .title-clients {
-        font-size: 1rem;
+    .container {
+        padding: 0 15px;
     }
 
     .section-title {
@@ -1080,22 +990,22 @@ textarea:focus {
     }
 
     .btn {
+        padding: 0.875rem 1.75rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .btn {
         padding: 0.75rem 1.5rem;
         font-size: 0.9rem;
-    }
-
-    .service-card,
-    .pricing-card {
-        padding: 1.5rem;
-    }
-
-    .hero-stats {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .stat-item {
-        width: 100%;
-        max-width: 200px;
     }
 }

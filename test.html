@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test TDI</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .box { background: white; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 500px; }
+        .btn { background: #006994; color: white; padding: 10px 20px; border: none; border-radius: 5px; text-decoration: none; display: inline-block; margin: 5px; }
+        .info { background: #e9ecef; padding: 15px; border-radius: 5px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🧪 Test TDI Mobile</h1>
+        
+        <div class="info">
+            <h3>📱 Votre appareil</h3>
+            <div id="info">Chargement...</div>
+        </div>
+        
+        <h3>✅ Optimisations actives</h3>
+        <ul>
+            <li>CSS responsive</li>
+            <li>Navigation mobile</li>
+            <li>Performance optimisée</li>
+            <li>Animations adaptées</li>
+        </ul>
+        
+        <h3>🔗 Navigation</h3>
+        <a href="index.html" class="btn">Site principal</a>
+        <a href="test-mobile-simple.html" class="btn">Test complet</a>
+    </div>
+
+    <script>
+        document.getElementById('info').innerHTML = `
+            <strong>Écran:</strong> ${window.innerWidth} × ${window.innerHeight}px<br>
+            <strong>Type:</strong> ${window.innerWidth <= 768 ? '📱 Mobile' : '💻 Desktop'}<br>
+            <strong>Ratio:</strong> ${window.devicePixelRatio}x
+        `;
+    </script>
+</body>
+</html>

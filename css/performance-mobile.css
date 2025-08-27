@@ -1,0 +1,193 @@
+/* ===== OPTIMISATIONS PERFORMANCE MOBILE ===== */
+
+/* Désactiver les animations lourdes sur mobile */
+@media (max-width: 768px) {
+    /* Réduire les transitions complexes */
+    * {
+        animation-duration: 0.3s !important;
+        animation-delay: 0s !important;
+    }
+    
+    /* Désactiver les animations de particules */
+    .floating-icon,
+    .particle,
+    [class*="particle"] {
+        display: none !important;
+        animation: none !important;
+    }
+    
+    /* Simplifier les transitions de transform */
+    .service-card,
+    .pricing-card,
+    .advantage-item,
+    .contact-item,
+    .hardware-product {
+        transition: opacity 0.3s ease !important;
+        transform: none !important;
+    }
+    
+    /* Désactiver les effets de parallaxe */
+    .hero {
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    /* Optimiser les boutons */
+    .btn {
+        transition: background-color 0.2s ease, color 0.2s ease !important;
+        transform: none !important;
+    }
+    
+    .btn:hover {
+        transform: none !important;
+    }
+    
+    /* Optimiser les cartes */
+    .card,
+    [class*="card"] {
+        transition: box-shadow 0.2s ease !important;
+        transform: none !important;
+    }
+    
+    .card:hover,
+    [class*="card"]:hover {
+        transform: none !important;
+    }
+    
+    /* Désactiver les animations de scroll complexes */
+    [data-aos],
+    [class*="animate"],
+    [class*="fade"] {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    /* Optimiser les icônes */
+    .fas,
+    .fab,
+    .far {
+        transition: color 0.2s ease !important;
+        transform: none !important;
+    }
+    
+    /* Désactiver les animations de loading */
+    .loading,
+    .spinner,
+    [class*="loading"] {
+        animation: none !important;
+    }
+    
+    /* Optimiser les formulaires */
+    input,
+    textarea,
+    select {
+        transition: border-color 0.2s ease !important;
+        transform: none !important;
+    }
+    
+    /* Désactiver les animations de navigation */
+    .nav-link::after {
+        display: none !important;
+    }
+    
+    /* Optimiser les effets de hover */
+    .nav-link:hover {
+        transform: none !important;
+    }
+}
+
+/* Optimisations pour appareils très lents */
+@media (max-width: 480px) {
+    /* Désactiver toutes les animations */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    /* Forcer l'affichage immédiat */
+    .service-card,
+    .pricing-card,
+    .advantage-item,
+    .contact-item,
+    .hardware-product {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    /* Simplifier les interactions */
+    .btn:active {
+        transform: scale(0.98) !important;
+        transition: transform 0.1s ease !important;
+    }
+}
+
+/* Optimisations pour l'orientation paysage sur mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    /* Réduire encore plus les animations */
+    * {
+        animation-duration: 0.2s !important;
+        transition-duration: 0.2s !important;
+    }
+    
+    /* Désactiver les éléments flottants */
+    .floating-elements {
+        display: none !important;
+    }
+}
+
+/* Support des préférences de réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .service-card,
+    .pricing-card,
+    .advantage-item,
+    .contact-item,
+    .hardware-product {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Optimisations pour les appareils à haute densité de pixels */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    @media (max-width: 768px) {
+        /* Réduire les ombres sur les appareils haute densité */
+        .card,
+        [class*="card"],
+        .service-card,
+        .pricing-card {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Simplifier les bordures */
+        .btn,
+        input,
+        textarea,
+        select {
+            border-width: 0.5px !important;
+        }
+    }
+}
+
+/* Optimisations pour les appareils avec notch */
+@supports (padding: max(0px)) {
+    @media (max-width: 768px) {
+        /* Ajuster les marges pour le notch */
+        .header,
+        .navbar {
+            padding-left: max(15px, env(safe-area-inset-left)) !important;
+            padding-right: max(15px, env(safe-area-inset-right)) !important;
+        }
+        
+        /* Ajuster le menu mobile */
+        .nav-menu {
+            padding-left: max(0px, env(safe-area-inset-left)) !important;
+            padding-right: max(0px, env(safe-area-inset-right)) !important;
+        }
+    }
+}

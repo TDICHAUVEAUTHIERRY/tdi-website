@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mobile Simple - TDI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f0f0f0; 
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #006994; margin-bottom: 20px; text-align: center; }
+        .test-item { 
+            margin: 15px 0; 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+        }
+        .success { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .info { background: #e9ecef; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .btn { 
+            background: #006994; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { background: #004d6b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Mobile TDI</h1>
+        
+        <div class="info">
+            <h3>📱 Votre appareil</h3>
+            <div id="deviceInfo">Chargement...</div>
+        </div>
+        
+        <div class="test-item">
+            <h3>✅ Optimisations Mobile Actives</h3>
+            <ul>
+                <li>CSS responsive configuré</li>
+                <li>Navigation mobile optimisée</li>
+                <li>Animations adaptées</li>
+                <li>Formulaires optimisés</li>
+                <li>Performance mobile</li>
+            </ul>
+        </div>
+        
+        <div class="test-item">
+            <h3>🔧 Test de Performance</h3>
+            <button class="btn" onclick="testPerformance()">Tester la Performance</button>
+            <div id="performanceResult"></div>
+        </div>
+        
+        <div class="test-item">
+            <h3>📱 Test Responsive</h3>
+            <p>Redimensionnez cette fenêtre pour tester le responsive design</p>
+            <div class="success" id="responsiveTest">
+                Largeur actuelle: <span id="currentWidth"></span>px
+            </div>
+        </div>
+        
+        <div class="test-item">
+            <h3>🔗 Navigation</h3>
+            <a href="index.html" class="btn">← Retour au site TDI</a>
+            <a href="performance-test.html" class="btn">Test Performance Avancé</a>
+        </div>
+    </div>
+
+    <script>
+        // Informations de l'appareil
+        function showDeviceInfo() {
+            const deviceInfo = document.getElementById('deviceInfo');
+            const currentWidth = document.getElementById('currentWidth');
+            
+            const info = {
+                'Écran': window.innerWidth + ' × ' + window.innerHeight + 'px',
+                'Type': window.innerWidth <= 768 ? '📱 Mobile' : '💻 Desktop',
+                'Ratio': window.devicePixelRatio + 'x',
+                'Orientation': window.innerWidth > window.innerHeight ? 'Paysage' : 'Portrait'
+            };
+            
+            let html = '';
+            for (const [key, value] of Object.entries(info)) {
+                html += `<strong>${key}:</strong> ${value}<br>`;
+            }
+            deviceInfo.innerHTML = html;
+            currentWidth.textContent = window.innerWidth;
+        }
+        
+        // Test de performance
+        function testPerformance() {
+            const result = document.getElementById('performanceResult');
+            const start = performance.now();
+            
+            // Test simple
+            let sum = 0;
+            for (let i = 0; i < 100000; i++) {
+                sum += Math.random();
+            }
+            
+            const duration = performance.now() - start;
+            const score = duration < 50 ? 'Excellent' : duration < 100 ? 'Bon' : 'Correct';
+            
+            result.innerHTML = `
+                <div class="success">
+                    <strong>Performance: ${score}</strong><br>
+                    Temps: ${duration.toFixed(2)}ms<br>
+                    Score: ${Math.max(0, 100 - Math.floor(duration))}/100
+                </div>
+            `;
+        }
+        
+        // Initialisation
+        showDeviceInfo();
+        window.addEventListener('resize', showDeviceInfo);
+    </script>
+</body>
+</html>

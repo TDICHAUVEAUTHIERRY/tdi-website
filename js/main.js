@@ -1,26 +1,56 @@
-/* ===== TDI CHAUVEAU THIERRY - MAIN JAVASCRIPT ===== */
-/* Ce fichier initialise tous les modules JavaScript */
+/* ===== TDI CHAUVEAU THIERRY - MAIN JAVASCRIPT OPTIMISÉ MOBILE ===== */
+/* Ce fichier initialise tous les modules JavaScript avec optimisations mobile */
+
+// Configuration de performance mobile
+const MOBILE_CONFIG = {
+    isMobile: window.innerWidth <= 768,
+    isLowPerformance: false,
+    debounceDelay: 150,
+    animationThreshold: 0.2
+};
+
+// Détection de performance
+function detectPerformance() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isOldDevice = /android [1-6]|iphone os [1-9]|ipad os [1-9]/i.test(userAgent);
+    const hasLowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+    const hasSlowConnection = navigator.connection && navigator.connection.effectiveType === 'slow-2g';
+    
+    MOBILE_CONFIG.isLowPerformance = MOBILE_CONFIG.isMobile || isOldDevice || hasLowMemory || hasSlowConnection;
+    
+    if (MOBILE_CONFIG.isLowPerformance) {
+        MOBILE_CONFIG.debounceDelay = 300;
+        MOBILE_CONFIG.animationThreshold = 0.3;
+    }
+}
 
 // Attendre que le DOM soit chargé
 document.addEventListener('DOMContentLoaded', function() {
+    // Détecter la performance de l'appareil
+    detectPerformance();
     
     // Initialiser les utilitaires de base
     if (typeof TDIUtils === 'undefined') {
         console.warn('TDIUtils non disponible, chargement des utilitaires de base...');
-        // Charger les utilitaires de base si ils ne sont pas disponibles
         loadCoreUtilities();
     }
     
-    // Initialiser tous les modules
-    initializeModules();
-    
-    // Configuration globale
-    setupGlobalConfig();
+    // Initialiser tous les modules avec délai pour mobile
+    if (MOBILE_CONFIG.isMobile) {
+        // Délai d'initialisation pour mobile
+        setTimeout(() => {
+            initializeModules();
+            setupGlobalConfig();
+        }, 100);
+    } else {
+        initializeModules();
+        setupGlobalConfig();
+    }
     
     // Initialisation terminée
-    console.log('TDI CHAUVEAU THIERRY - Application initialisée avec succès !');
+    console.log(`TDI CHAUVEAU THIERRY - Application initialisée (Mobile: ${MOBILE_CONFIG.isMobile}, Performance: ${MOBILE_CONFIG.isLowPerformance ? 'Faible' : 'Normale'})`);
     
-    // Événements de fin de chargement
+    // Événements de fin de chargement optimisés
     window.addEventListener('load', function() {
         console.log('TDI CHAUVEAU THIERRY - Page entièrement chargée !');
         
@@ -30,17 +60,48 @@ document.addEventListener('DOMContentLoaded', function() {
             loader.style.opacity = '0';
             setTimeout(() => loader.remove(), 300);
         }
+        
+        // Optimisations post-chargement pour mobile
+        if (MOBILE_CONFIG.isMobile) {
+            optimizeForMobile();
+        }
     });
 });
 
 // Fonction pour charger les utilitaires de base si nécessaire
 function loadCoreUtilities() {
-    // Définir les utilitaires de base si ils ne sont pas chargés
+    // Définir les utilitaires de base optimisés pour mobile
     window.TDIUtils = {
         showNotification: function(message, type = 'info') {
-            alert(`${type.toUpperCase()}: ${message}`);
+            if (MOBILE_CONFIG.isMobile) {
+                // Notification simplifiée pour mobile
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'error' ? '#f44336' : type === 'success' ? '#4caf50' : '#2196f3'};
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 5px;
+                    z-index: 10000;
+                    font-size: 14px;
+                    max-width: 90%;
+                    text-align: center;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            } else {
+                alert(`${type.toUpperCase()}: ${message}`);
+            }
         },
         debounce: function(func, wait) {
+            const delay = MOBILE_CONFIG.isLowPerformance ? wait * 2 : wait;
             let timeout;
             return function executedFunction(...args) {
                 const later = () => {
@@ -48,12 +109,19 @@ function loadCoreUtilities() {
                     func(...args);
                 };
                 clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
+                timeout = setTimeout(later, delay);
             };
         },
         isValidEmail: function(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
+        },
+        // Nouveaux utilitaires pour mobile
+        isMobile: function() {
+            return MOBILE_CONFIG.isMobile;
+        },
+        isLowPerformance: function() {
+            return MOBILE_CONFIG.isLowPerformance;
         }
     };
 }
@@ -74,20 +142,17 @@ function initializeModules() {
             console.warn('FormManager non disponible');
         }
         
-        // Initialiser les modules disponibles
+        // Initialiser les modules disponibles avec optimisations mobile
         if (typeof window.navigationManager === 'undefined') {
             console.log('Initialisation du gestionnaire de navigation...');
-            // Le module sera initialisé automatiquement via son propre fichier
         }
         
         if (typeof window.animationManager === 'undefined') {
             console.log('Initialisation du gestionnaire d\'animations...');
-            // Le module sera initialisé automatiquement via son propre fichier
         }
         
         if (typeof window.formManager === 'undefined') {
             console.log('Initialisation du gestionnaire de formulaires...');
-            // Le module sera initialisé automatiquement via son propre fichier
         }
         
     } catch (error) {
@@ -97,150 +162,66 @@ function initializeModules() {
 
 // Fonction pour configurer les paramètres globaux
 function setupGlobalConfig() {
-    // Configuration des performances
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-            // Optimisations à effectuer quand le navigateur est inactif
-            optimizePerformance();
-        });
-    }
-    
-    // Configuration de l'accessibilité
-    setupAccessibility();
-    
-    // Configuration des erreurs globales
-    setupErrorHandling();
-}
-
-// Fonction pour optimiser les performances
-function optimizePerformance() {
-    // Désactiver les animations si l'utilisateur préfère moins de mouvement
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        if (window.animationManager) {
-            window.animationManager.toggleAnimations(false);
-        }
-    }
-    
-    // Lazy loading des images
-    if (window.TDIUtils && window.TDIUtils.lazyLoadImages) {
-        window.TDIUtils.lazyLoadImages();
-    }
-    
-    // Gestion des erreurs d'images
-    if (window.TDIUtils && window.TDIUtils.handleImageErrors) {
-        window.TDIUtils.handleImageErrors();
+    // Configuration des performances mobile
+    if (MOBILE_CONFIG.isMobile) {
+        // Réduire la fréquence des événements sur mobile
+        document.addEventListener('scroll', TDIUtils.debounce(() => {
+            // Gestion du scroll optimisée pour mobile
+        }, MOBILE_CONFIG.debounceDelay));
+        
+        // Optimiser les événements de redimensionnement
+        window.addEventListener('resize', TDIUtils.debounce(() => {
+            // Gestion du redimensionnement optimisée
+        }, 250));
     }
 }
 
-// Fonction pour configurer l'accessibilité
-function setupAccessibility() {
-    // Améliorer la navigation au clavier
-    document.addEventListener('keydown', function(e) {
-        // Navigation avec Tab
-        if (e.key === 'Tab') {
-            document.body.classList.add('keyboard-navigation');
+// Optimisations spécifiques pour mobile
+function optimizeForMobile() {
+    // Réduire les animations CSS sur mobile
+    const animatedElements = document.querySelectorAll('[style*="animation"], [style*="transition"]');
+    animatedElements.forEach(el => {
+        const currentTransition = el.style.transition;
+        if (currentTransition && currentTransition.includes('transform')) {
+            // Simplifier les transitions de transform sur mobile
+            el.style.transition = currentTransition.replace(/transform[^,]*/g, 'opacity 0.3s ease');
         }
     });
     
-    // Détecter la navigation à la souris
-    document.addEventListener('mousedown', function() {
-        document.body.classList.remove('keyboard-navigation');
-    });
-    
-    // Améliorer le focus pour l'accessibilité
-    document.querySelectorAll('button, a, input, select, textarea').forEach(element => {
-        element.addEventListener('focus', function() {
-            this.style.outline = '2px solid #90e0ef';
-            this.style.outlineOffset = '2px';
-        });
-        
-        element.addEventListener('blur', function() {
-            this.style.outline = 'none';
-        });
-    });
-}
-
-// Fonction pour gérer les erreurs globales
-function setupErrorHandling() {
-    // Gestion des erreurs JavaScript
-    window.addEventListener('error', function(e) {
-        console.error('Erreur JavaScript:', e.error);
-        
-        // Envoyer l'erreur à un service de monitoring si nécessaire
-        // sendErrorToMonitoring(e.error);
-    });
-    
-    // Gestion des promesses rejetées
-    window.addEventListener('unhandledrejection', function(e) {
-        console.error('Promesse rejetée:', e.reason);
-        
-        // Envoyer l'erreur à un service de monitoring si nécessaire
-        // sendErrorToMonitoring(e.reason);
-    });
-}
-
-// Fonction pour vérifier la compatibilité du navigateur
-function checkBrowserCompatibility() {
-    const features = {
-        es6: typeof Promise !== 'undefined',
-        intersectionObserver: typeof IntersectionObserver !== 'undefined',
-        fetch: typeof fetch !== 'undefined',
-        localStorage: typeof localStorage !== 'undefined'
-    };
-    
-    const unsupportedFeatures = Object.keys(features).filter(feature => !features[feature]);
-    
-    if (unsupportedFeatures.length > 0) {
-        console.warn('Fonctionnalités non supportées:', unsupportedFeatures);
-        
-        // Afficher un message d'avertissement si nécessaire
-        if (unsupportedFeatures.includes('es6')) {
-            showBrowserWarning();
+    // Optimiser les images pour mobile
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        // Lazy loading pour mobile
+        if (!img.loading) {
+            img.loading = 'lazy';
         }
+    });
+    
+    // Optimiser les formulaires pour mobile
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        input.style.fontSize = '16px'; // Évite le zoom sur iOS
+        input.style.minHeight = '44px'; // Taille minimale pour tactile
+    });
+}
+
+// Gestion des erreurs optimisée pour mobile
+window.addEventListener('error', function(e) {
+    if (MOBILE_CONFIG.isMobile) {
+        console.warn('Erreur détectée sur mobile:', e.error);
+        // Ne pas afficher d'alertes d'erreur sur mobile
+    } else {
+        console.error('Erreur détectée:', e.error);
     }
-    
-    return features;
-}
-
-// Fonction pour afficher un avertissement de navigateur
-function showBrowserWarning() {
-    const warning = document.createElement('div');
-    warning.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: #f59e0b;
-        color: white;
-        padding: 1rem;
-        text-align: center;
-        z-index: 10001;
-        font-size: 0.875rem;
-    `;
-    warning.innerHTML = `
-        ⚠️ Votre navigateur est ancien. Certaines fonctionnalités peuvent ne pas fonctionner correctement. 
-        <a href="https://browsehappy.com/" target="_blank" style="color: white; text-decoration: underline;">Mettre à jour</a>
-    `;
-    
-    document.body.appendChild(warning);
-    
-    // Supprimer l'avertissement après 10 secondes
-    setTimeout(() => {
-        if (warning.parentNode) {
-            warning.remove();
-        }
-    }, 10000);
-}
-
-// Vérifier la compatibilité au chargement
-document.addEventListener('DOMContentLoaded', function() {
-    checkBrowserCompatibility();
 });
 
-// Exposer les fonctions principales globalement pour le débogage
-window.TDIMain = {
-    checkBrowserCompatibility,
-    optimizePerformance,
-    setupAccessibility,
-    setupErrorHandling
-};
+// Optimisation lors du changement d'orientation
+window.addEventListener('orientationchange', function() {
+    setTimeout(() => {
+        if (MOBILE_CONFIG.isMobile) {
+            optimizeForMobile();
+        }
+    }, 100);
+});

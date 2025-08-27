@@ -567,14 +567,17 @@
 @media (max-width: 768px) {
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     .pricing-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     .pricing-card.featured {
         transform: none;
+        order: -1;
     }
 
     .pricing-card.featured:hover {
@@ -582,7 +585,8 @@
     }
 
     .advantages-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
     }
 
     .contact-content {
@@ -592,14 +596,17 @@
 
     .payment-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     .payment-card.featured {
         transform: none;
+        order: -1;
     }
     
     .payment-security {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     .payment-card {
@@ -608,18 +615,57 @@
     
     .quick-amounts {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
     }
     
     .quick-btn {
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1.25rem;
         font-size: 0.9rem;
+    }
+
+    .hardware-categories {
+        gap: 2rem;
+    }
+
+    .hardware-category {
+        padding: 2rem;
+    }
+
+    .hardware-products {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .hardware-product {
+        padding: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
     .service-card,
-    .pricing-card {
+    .pricing-card,
+    .payment-card,
+    .hardware-product {
+        padding: 1.25rem;
+    }
+
+    .quick-amounts {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .quick-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .hardware-category {
         padding: 1.5rem;
+    }
+
+    .hardware-products {
+        gap: 1rem;
     }
 }
 

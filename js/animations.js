@@ -1,6 +1,8 @@
-/* ===== ANIMATIONS MODULE ===== */
+/* ===== ANIMATIONS MODULE OPTIMISÉ MOBILE ===== */
 class AnimationManager {
     constructor() {
+        this.isMobile = window.innerWidth <= 768;
+        this.isLowPerformance = this.detectLowPerformance();
         this.observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -9,15 +11,47 @@ class AnimationManager {
         this.init();
     }
     
-    init() {
-        this.setupScrollAnimations();
-        this.setupHoverEffects();
-        this.setupParallaxEffects();
-        this.setupFloatingElements();
+    detectLowPerformance() {
+        // Détection de performance basée sur l'appareil
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isOldDevice = /android [1-6]|iphone os [1-9]|ipad os [1-9]/i.test(userAgent);
+        const hasLowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+        const hasSlowConnection = navigator.connection && navigator.connection.effectiveType === 'slow-2g';
+        
+        return this.isMobile || isOldDevice || hasLowMemory || hasSlowConnection;
     }
     
-    setupScrollAnimations() {
-        // Animation des éléments au scroll
+    init() {
+        if (this.isLowPerformance) {
+            this.setupBasicAnimations();
+        } else {
+            this.setupFullAnimations();
+        }
+        
+        this.setupMobileOptimizations();
+    }
+    
+    setupBasicAnimations() {
+        // Animations simplifiées pour appareils lents
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'none';
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        // Observer les éléments avec des animations simples
+        document.querySelectorAll('.service-card, .advantage-item, .pricing-card, .contact-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transition = 'opacity 0.4s ease';
+            observer.observe(el);
+        });
+    }
+    
+    setupFullAnimations() {
+        // Animations complètes pour appareils performants
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -27,141 +61,118 @@ class AnimationManager {
             });
         }, this.observerOptions);
         
-        // Observer tous les éléments avec la classe 'animate-on-scroll'
         document.querySelectorAll('.service-card, .advantage-item, .pricing-card, .contact-item').forEach(el => {
             el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
+            el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
         });
+        
+        this.setupHoverEffects();
+        this.setupFloatingElements();
     }
     
     setupHoverEffects() {
+        if (this.isMobile) return; // Pas d'effets hover sur mobile
+        
         // Animation des cartes de services au hover
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-15px) scale(1.02)';
+                if (!this.isMobile) {
+                    card.style.transform = 'translateY(-10px) scale(1.01)';
+                }
             });
             
             card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0) scale(1)';
+                if (!this.isMobile) {
+                    card.style.transform = 'translateY(0) scale(1)';
+                }
             });
         });
         
         // Animation des cartes de tarifs
         document.querySelectorAll('.pricing-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
-                if (!card.classList.contains('featured')) {
-                    card.style.transform = 'translateY(-10px)';
+                if (!this.isMobile && !card.classList.contains('featured')) {
+                    card.style.transform = 'translateY(-8px)';
                 }
             });
             
             card.addEventListener('mouseleave', () => {
-                if (!card.classList.contains('featured')) {
+                if (!this.isMobile && !card.classList.contains('featured')) {
                     card.style.transform = 'translateY(0)';
                 }
             });
         });
-        
-        // Animation des éléments d'avantages
-        document.querySelectorAll('.advantage-item').forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                const icon = item.querySelector('i');
-                if (icon) {
-                    icon.style.transform = 'scale(1.1) rotate(5deg)';
-                }
-            });
-            
-            item.addEventListener('mouseleave', () => {
-                const icon = item.querySelector('i');
-                if (icon) {
-                    icon.style.transform = 'scale(1) rotate(0deg)';
-                }
-            });
-        });
-    }
-    
-    setupParallaxEffects() {
-        // Effet de parallaxe léger pour la section hero
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            
-            if (hero) {
-                const rate = scrolled * -0.5;
-                hero.style.transform = `translateY(${rate}px)`;
-            }
-        });
     }
     
     setupFloatingElements() {
-        // Animation des éléments flottants
-        const floatingIcons = document.querySelectorAll('.floating-icon');
+        if (this.isMobile) return; // Pas d'éléments flottants sur mobile
         
+        const floatingIcons = document.querySelectorAll('.floating-icon');
         floatingIcons.forEach((icon, index) => {
-            icon.style.animationDelay = `${index * 2}s`;
+            icon.style.animationDelay = `${index * 1.5}s`;
+        });
+    }
+    
+    setupMobileOptimizations() {
+        if (this.isMobile) {
+            // Désactiver les animations lourdes sur mobile
+            this.disableHeavyAnimations();
+            
+            // Optimiser les transitions CSS
+            this.optimizeTransitions();
+        }
+    }
+    
+    disableHeavyAnimations() {
+        // Désactiver les effets de parallaxe sur mobile
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            hero.style.transform = 'none';
+        }
+        
+        // Réduire le nombre d'éléments animés
+        const animatedElements = document.querySelectorAll('.floating-icon, .particle');
+        animatedElements.forEach(el => {
+            el.style.animation = 'none';
+            el.style.display = 'none';
+        });
+    }
+    
+    optimizeTransitions() {
+        // Optimiser les transitions pour mobile
+        const elementsWithTransitions = document.querySelectorAll('[style*="transition"]');
+        elementsWithTransitions.forEach(el => {
+            const currentTransition = el.style.transition;
+            if (currentTransition.includes('transform')) {
+                // Remplacer les transitions de transform par des transitions simples
+                el.style.transition = currentTransition.replace(/transform[^,]*/g, 'opacity 0.3s ease');
+            }
         });
     }
     
     // Méthode pour animer un élément spécifique
-    animateElement(element, animationType = 'fadeInUp') {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        
-        setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }, 100);
-    }
-    
-    // Méthode pour créer un effet de particules (optionnel)
-    createParticles() {
-        const particlesContainer = document.createElement('div');
-        particlesContainer.className = 'particles-container';
-        particlesContainer.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-        `;
-        
-        document.body.appendChild(particlesContainer);
-        
-        // Créer quelques particules flottantes
-        for (let i = 0; i < 20; i++) {
-            this.createParticle(particlesContainer);
+    animateElement(element, animationType = 'fadeIn') {
+        if (this.isLowPerformance) {
+            // Animation simple pour appareils lents
+            element.style.opacity = '0';
+            element.style.transition = 'opacity 0.4s ease';
+            
+            setTimeout(() => {
+                element.style.opacity = '1';
+            }, 50);
+        } else {
+            // Animation complète pour appareils performants
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
         }
-    }
-    
-    createParticle(container) {
-        const particle = document.createElement('div');
-        particle.style.cssText = `
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(144, 224, 239, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float-particle 15s infinite linear;
-        `;
-        
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 15 + 's';
-        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-        
-        container.appendChild(particle);
-        
-        // Supprimer la particule après l'animation
-        setTimeout(() => {
-            if (particle.parentNode) {
-                particle.remove();
-            }
-        }, 15000);
     }
     
     // Méthode pour activer/désactiver les animations
@@ -169,12 +180,19 @@ class AnimationManager {
         const animatedElements = document.querySelectorAll('.service-card, .advantage-item, .pricing-card, .contact-item');
         
         animatedElements.forEach(el => {
-            if (enable) {
+            if (enable && !this.isLowPerformance) {
                 el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             } else {
-                el.style.transition = 'none';
+                el.style.transition = 'opacity 0.3s ease';
             }
         });
+    }
+    
+    // Méthode pour optimiser en temps réel
+    optimizeForCurrentConditions() {
+        if (this.isMobile) {
+            this.setupBasicAnimations();
+        }
     }
 }
 
@@ -182,28 +200,19 @@ class AnimationManager {
 document.addEventListener('DOMContentLoaded', () => {
     window.animationManager = new AnimationManager();
     
-    // Ajouter l'animation des particules au CSS si activée
-    const particleStyle = document.createElement('style');
-    particleStyle.textContent = `
-        @keyframes float-particle {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
+    // Optimiser lors du redimensionnement
+    window.addEventListener('resize', () => {
+        if (window.animationManager) {
+            window.animationManager.optimizeForCurrentConditions();
         }
-    `;
-    document.head.appendChild(particleStyle);
+    });
     
-    // Désactiver les particules par défaut pour la performance
-    // window.animationManager.createParticles();
+    // Optimiser lors du changement d'orientation
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            if (window.animationManager) {
+                window.animationManager.optimizeForCurrentConditions();
+            }
+        }, 100);
+    });
 });
