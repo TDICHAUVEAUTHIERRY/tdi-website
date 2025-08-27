@@ -98,4 +98,4 @@ Write-Host "🎉 Votre projet est prêt pour le déploiement !" -ForegroundColor
 Write-Host "📖 Consultez DEPLOYMENT.md pour plus de détails" -ForegroundColor Cyan
 
 # Attendre l'input de l'utilisateur
-Read-Host "Appuyez sur Entrée pour continuer..."
+Read-Host "Appuyez sur Entree pour continuer..."
