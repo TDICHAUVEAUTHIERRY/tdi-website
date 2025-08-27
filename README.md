@@ -1,193 +1,129 @@
-# TDI CHAUVEAU THIERRY - Site de Dépannage Informatique
+# 🖥️ TDI CHAUVEAU THIERRY - Site Web de Dépannage Informatique
 
-## 📁 Structure du Projet
+## 📋 Description
 
-Ce projet utilise une architecture modulaire pour optimiser la maintenance et les performances.
+Site web professionnel pour **TDI CHAUVEAU THIERRY**, entreprise de dépannage informatique basée à Tigy, Loiret. Le site présente les services, tarifs et informations de contact de l'entreprise.
 
-### 🎨 Structure CSS
+## 🌟 Fonctionnalités
 
-```
-css/
-├── base.css          # Variables CSS, reset, typographie, boutons
-├── navigation.css    # Styles de la navigation et header
-├── hero.css          # Styles de la section d'accueil
-├── sections.css      # Styles des sections (services, avantages, tarifs, contact)
-├── footer.css        # Styles du footer
-├── main.css          # Fichier principal avec imports (optionnel)
-└── styles.css        # Fichier concaténé pour production
-```
+- **Design moderne et responsive** adapté mobile et desktop
+- **Section services** détaillant l'offre de dépannage informatique
+- **Tarifs transparents** avec différents forfaits
+- **Boutique en ligne** pour l'achat de matériel informatique
+- **Système de paiement** intégré PayPal
+- **Formulaire de contact** pour les demandes de devis
+- **Navigation intuitive** avec menu hamburger mobile
 
-### ⚡ Structure JavaScript
+## 🛠️ Technologies utilisées
 
-```
-js/
-├── core.js           # Fonctions utilitaires de base
-├── navigation.js     # Gestion de la navigation et menu mobile
-├── animations.js     # Gestion des animations et effets visuels
-├── forms.js          # Gestion des formulaires et validation
-├── main.js           # Fichier principal avec imports (optionnel)
-└── script.js         # Fichier concaténé pour production
-```
-
-### 🖼️ Dossier Images
-
-```
-images/               # Images et ressources graphiques
-```
-
-## 🚀 Utilisation
-
-### Pour le Développement
-
-Utilisez les fichiers modulaires séparés pour une meilleure organisation :
-
-```html
-<!-- CSS modulaire -->
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/navigation.css">
-<link rel="stylesheet" href="css/hero.css">
-<link rel="stylesheet" href="css/sections.css">
-<link rel="stylesheet" href="css/footer.css">
-
-<!-- JavaScript modulaire -->
-<script src="js/core.js"></script>
-<script src="js/navigation.js"></script>
-<script src="js/animations.js"></script>
-<script src="js/forms.js"></script>
-<script src="js/main.js"></script>
-```
-
-### Pour la Production
-
-Utilisez les fichiers concaténés pour de meilleures performances :
-
-```html
-<!-- CSS concaténé -->
-<link rel="stylesheet" href="styles.css">
-
-<!-- JavaScript concaténé -->
-<script src="script.js"></script>
-```
-
-## 🔧 Fonctionnalités
-
-### Navigation
-- Menu hamburger responsive
-- Navigation sticky avec effet de transparence
-- Smooth scroll pour les liens d'ancrage
-
-### Animations
-- Animations au scroll avec Intersection Observer
-- Effets de hover sur les cartes
-- Parallaxe léger sur la section hero
-- Éléments flottants animés
-
-### Formulaires
-- Validation en temps réel
-- Gestion des erreurs avec feedback visuel
-- Accessibilité améliorée (ARIA, labels)
-- Simulation d'envoi avec états de chargement
-
-### Performance
-- Lazy loading des images
-- Debounce sur les événements de scroll
-- Optimisations pour navigateurs anciens
-- Gestion des erreurs globales
-
-## 🎯 Avantages de l'Architecture Modulaire
-
-### ✅ Maintenance
-- Code organisé par fonctionnalité
-- Modification facile d'un module spécifique
-- Réutilisation possible des modules
-
-### ✅ Performance
-- Chargement conditionnel des modules
-- Fichiers concaténés pour la production
-- Optimisation du cache navigateur
-
-### ✅ Développement
-- Travail en équipe facilité
-- Tests unitaires possibles par module
-- Débogage simplifié
-
-### ✅ Compatibilité
-- Fallbacks pour navigateurs anciens
-- Détection automatique des fonctionnalités
-- Graceful degradation
-
-## 📱 Responsive Design
-
-Le site est entièrement responsive avec :
-- Design mobile-first
-- Breakpoints : 480px, 768px, 1200px
-- Menu hamburger pour mobile
-- Adaptations des animations selon l'écran
-
-## 🌈 Palette de Couleurs
-
-```css
---primary-color: #006994      /* Bleu océan principal */
---primary-dark: #004d6b       /* Bleu océan foncé */
---secondary-color: #00b4d8    /* Bleu océan clair */
---accent-color: #90e0ef       /* Bleu accent */
---text-dark: #1e3a5f         /* Texte principal */
---text-light: #6b7280        /* Texte secondaire */
-```
-
-## 🔍 Optimisations
-
-### CSS
-- Variables CSS pour la cohérence
-- Animations optimisées avec transform/opacity
-- Media queries organisées par composant
-
-### JavaScript
-- Classes ES6 pour l'organisation
-- Gestion des événements optimisée
-- Lazy loading et debouncing
-- Gestion d'erreurs robuste
-
-## 📋 Scripts de Build (Optionnels)
-
-Pour automatiser la concaténation, vous pouvez utiliser :
-
-### Avec Node.js
-```bash
-npm install -g concat
-concat -o styles.css css/*.css
-concat -o script.js js/*.js
-```
-
-### Avec Gulp
-```bash
-npm install -g gulp-cli
-npm install
-gulp build
-```
-
-### Avec Webpack
-```bash
-npm install
-npm run build
-```
+- **Frontend** : HTML5, CSS3, JavaScript vanilla
+- **Design** : CSS Grid, Flexbox, Animations CSS
+- **Icônes** : Font Awesome 6
+- **Polices** : Google Fonts (Poppins)
+- **Paiement** : PayPal SDK
+- **Responsive** : Design mobile-first
 
 ## 🚀 Déploiement
 
-1. **Développement** : Utilisez les fichiers modulaires
-2. **Tests** : Vérifiez sur différents navigateurs
-3. **Production** : Utilisez les fichiers concaténés
-4. **Optimisation** : Minifiez les fichiers CSS/JS
-5. **Cache** : Configurez les en-têtes de cache
+Ce site est configuré pour être déployé sur **Coolify** avec Docker et Nginx.
 
-## 📞 Support
+### Fichiers de configuration :
+- `Dockerfile` - Configuration Docker
+- `nginx.conf` - Configuration Nginx
+- `docker-compose.yml` - Configuration Docker Compose
+- `coolify.yml` - Configuration spécifique Coolify
+- `deploy.sh` - Script de déploiement automatisé
 
-Pour toute question ou problème :
-- Vérifiez la console du navigateur
-- Consultez les logs dans le code
-- Testez module par module
+## 📱 Compatibilité
+
+- ✅ **Desktop** : Chrome, Firefox, Safari, Edge
+- ✅ **Mobile** : iOS Safari, Chrome Mobile, Samsung Internet
+- ✅ **Tablette** : iPad, Android Tablets
+- ✅ **Accessibilité** : Navigation clavier, lecteurs d'écran
+
+## 🔧 Installation locale
+
+```bash
+# Cloner le repository
+git clone https://github.com/votre-username/tdi-website.git
+cd tdi-website
+
+# Tester avec Docker
+docker-compose up -d
+
+# Ouvrir dans le navigateur
+# http://localhost:80
+```
+
+## 📊 Structure du projet
+
+```
+tdi-website/
+├── index.html              # Page principale
+├── styles.css              # Styles principaux
+├── css/                    # Fichiers CSS modulaires
+│   ├── base.css           # Styles de base
+│   ├── hero.css           # Section héro
+│   ├── navigation.css     # Navigation
+│   ├── sections.css       # Sections de contenu
+│   ├── footer.css         # Pied de page
+│   └── main.css           # Styles principaux
+├── js/                     # Scripts JavaScript
+│   ├── main.js            # Script principal
+│   ├── navigation.js       # Gestion navigation
+│   ├── animations.js       # Animations
+│   ├── forms.js            # Gestion formulaires
+│   ├── payment.js          # Intégration PayPal
+│   └── hardware-shop.js    # Boutique matériel
+├── images/                  # Images du site
+├── Dockerfile              # Configuration Docker
+├── nginx.conf              # Configuration Nginx
+├── docker-compose.yml      # Configuration Docker Compose
+├── coolify.yml             # Configuration Coolify
+├── deploy.sh               # Script de déploiement
+└── README.md               # Ce fichier
+```
+
+## 🎨 Design
+
+- **Palette de couleurs** : Bleu professionnel (#006994)
+- **Typographie** : Poppins (moderne et lisible)
+- **Layout** : Grid et Flexbox pour un design responsive
+- **Animations** : Transitions CSS fluides
+- **Icônes** : Font Awesome pour une cohérence visuelle
+
+## 📞 Contact
+
+**TDI CHAUVEAU THIERRY**
+- **Téléphone** : 09 81 82 37 68 / 07 60 89 50 18
+- **Email** : tdidepannage.informatique@ik.me
+- **Adresse** : 10 rue du moulin, 45510 Tigy, France
+- **Horaires** : Lun-Ven 9h-19h, Sam 8h-13h (sur RDV)
+
+## 🔒 Sécurité
+
+- En-têtes de sécurité configurés
+- Protection XSS et clickjacking
+- Content Security Policy
+- Validation des formulaires côté client et serveur
+
+## 📈 Performance
+
+- Compression gzip activée
+- Cache configuré pour les ressources statiques
+- Images optimisées
+- CSS et JS minifiés
+- Lazy loading des images
+
+## 🚀 Déploiement sur Coolify
+
+Consultez le fichier `DEPLOYMENT.md` pour un guide complet du déploiement sur Coolify.
+
+## 📄 Licence
+
+© 2025-2026 TDI CHAUVEAU THIERRY. Tous droits réservés.
+SIRET : 511.457.186.00043
 
 ---
 
-**TDI CHAUVEAU THIERRY** - Dépannage Informatique Professionnel
-*Site optimisé et modulaire pour une maintenance facile*
+**Développé avec ❤️ pour TDI CHAUVEAU THIERRY**
