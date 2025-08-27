@@ -1,0 +1,45 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+nginx-logs/
+
+# Fichiers de build Docker
+.dockerignore
+docker-compose.override.yml
+
+# Fichiers d'environnement
+.env
+.env.local
+.env.*.local
+
+# Fichiers de cache
+.cache/
+.temp/
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+*.old
+
+# Fichiers de déploiement temporaires
+deploy-temp/
+build-temp/
+
+# Fichiers de configuration locale
+docker-compose.local.yml
+docker-compose.dev.yml
+
+# Fichiers de logs Coolify
+.coolify-logs/

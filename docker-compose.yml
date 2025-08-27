@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  tdi-website:
+    build: .
+    container_name: tdi-website
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    volumes:
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - tdi-network
+
+networks:
+  tdi-network:
+    driver: bridge
+
+volumes:
+  nginx-logs:

@@ -1,0 +1,67 @@
+# Configuration Coolify pour TDI CHAUVEAU THIERRY
+# Site web de dépannage informatique
+
+name: tdi-website
+type: application
+buildPack: nixpacks
+port: 80
+exposePort: 80
+
+# Configuration du build
+buildCommand: |
+  echo "Build terminé - Site statique prêt"
+
+# Configuration du démarrage
+startCommand: |
+  nginx -g "daemon off;"
+
+# Variables d'environnement
+environmentVariables:
+  - key: NODE_ENV
+    value: production
+  - key: NGINX_HOST
+    value: 0.0.0.0
+  - key: NGINX_PORT
+    value: 80
+
+# Configuration des volumes
+volumes:
+  - source: nginx-logs
+    target: /var/log/nginx
+
+# Configuration des ports
+ports:
+  - published: 80
+    target: 80
+    protocol: tcp
+
+# Configuration des ressources
+resources:
+  limits:
+    memory: 512M
+    cpu: 0.5
+  reservations:
+    memory: 256M
+    cpu: 0.25
+
+# Configuration de la santé
+healthcheck:
+  test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s
+
+# Configuration des labels
+labels:
+  - "traefik.enable=true"
+  - "traefik.http.routers.tdi-website.rule=Host(`votre-domaine.com`)"
+  - "traefik.http.routers.tdi-website.entrypoints=web"
+  - "traefik.http.services.tdi-website.loadbalancer.server.port=80"
+
+# Configuration des secrets (si nécessaire)
+# secrets:
+#   - name: ssl-cert
+#     target: /etc/ssl/certs/cert.pem
+#   - name: ssl-key
+#     target: /etc/ssl/private/key.pem
